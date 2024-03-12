@@ -23,6 +23,6 @@ jobs:
         file: ./Dockerfile  
         push: true
         tags: 
-          - egarg26/PokeAPI_Minpro:latest
+          - egarg26/PokeAPIminpro:latest
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
