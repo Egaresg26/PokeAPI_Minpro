@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Pokemon</title>
+</head>
+<body>
+    <h1>List Pokemon</h1>
+    <form action="{{ url_for('pokemon_list') }}" method="get">
+        <label for="category">Filter by category:</label>
+        <select name="category" id="category">
+            <option value="all">All</option>
+            <option value="fire">Fire</option>
+            <option value="water">Water</option>
+            <option value="grass">Grass</option>
+            <!-- Add more options as needed -->
+        </select>
+        <button type="submit">Apply Filter</button>
+    </form>
+    <ul>
+        {% for pokemon in pokemon_list %}
+            <li><a href="{{ url_for('pokemon_detail', pokemon_name=pokemon['name']) }}">{{ pokemon['name'] }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

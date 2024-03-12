@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pokemon_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>{{ pokemon_name }}</h1>
+    <h2>Abilities:</h2>
+    <ul>
+        {% for ability in abilities %}
+            <li>{{ ability }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Types:</h2>
+    <ul>
+        {% for type in types %}
+            <li>{{ type }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Stats:</h2>
+    <ul>
+        {% for stat, value in stats.items() %}
+            <li>{{ stat }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Moves:</h2>
+    <ul>
+        {% for move in moves %}
+            <li>{{ move }}</li>
+        {% endfor %}
+    </ul>
+    <img src="{{ image_url }}" alt="{{ pokemon_name }} Image">
+    <h2>Add Review:</h2>
+    <form action="{{ url_for('add_review') }}" method="post">
+        <input type="hidden" name="pokemon_name" value="{{ pokemon_name }}">
+        <label for="rating">Rating:</label>
+        <input type="number" name="rating" id="rating" min="1" max="5" required><br>
+        <label for="comment">Comment:</label><br>
+        <textarea name="comment" id="comment" cols="30" rows="5" required></textarea><br>
+        <input type="submit" value="Submit Review">
+    </form>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
