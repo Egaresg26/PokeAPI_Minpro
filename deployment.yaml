@@ -1,11 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: pokeapibri
   name: pokeapibri
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: pokeapibri
@@ -15,30 +12,40 @@ spec:
         app: pokeapibri
     spec:
       containers:
-      - image: sahat850/pokeapi:latest
-        name: pokeapibri
+      - name: pokeapibri
+        image: sahat850/pokeapi:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "1Mi"
+            cpu: "1m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
         ports:
         - containerPort: 8080
-      resources:
-        limits:
-          cpu: "250m"
-          memory: "250Mi"
-        requests:
-          cpu: "100m"
-          memory: "128Mi"
-  restartPolicy: Always
+        # livenessProbe:
+        #   httpGet:
+        #     path: "/v1/ping"
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+        # readinessProbe:
+        #   httpGet:
+        #     path: "/v1/ping"
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+      # imagePullSecrets:
+      #   - name: melissa-hol-group
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: pokeapibri
   name: pokeapibri
 spec:
-  ports:
-  - name: "pokeapibri"
-    port: 80
-    targetPort: 8080
   selector:
     app: pokeapibri
-  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
