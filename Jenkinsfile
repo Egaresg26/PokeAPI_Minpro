@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         PROJECT_ID = 'multi-ks8-416911'
-                CLUSTER_NAME = 'k8s-project'
-                LOCATION = 'us-east1-b'
-                CREDENTIALS_ID = 'kubernetes'
+        CLUSTER_NAME = 'k8s-project'
+        LOCATION = 'us-east1-b'
+        CREDENTIALS_ID = 'kubernetes'
     }
 
     stages {
@@ -17,38 +17,35 @@ pipeline {
             steps {
                 script {
                     app = docker.build("egarg26/pokeapibri:${env.BUILD_ID}")
-                    }
+                }
             }
         }
 
         stage('Push image') {
             steps {
                 script {
-                    withCredentials( \
-                                 [string(credentialsId: 'dockerhub',\
-                                 variable: 'dockerhub')]) {
-                        sh "docker login -u egarg26 -p ${docker}"
+                    withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
                     }
                     app.push("${env.BUILD_ID}")
-                 }
-
+                }
             }
         }
 
         stage('Deploy to K8s') {
-            steps{
+            steps {
                 echo "Deployment started ..."
                 sh 'ls -ltr'
                 sh 'pwd'
                 sh "sed -i 's/pokeapibri:latest/pokeapibri:${env.BUILD_ID}/g' deployment.yaml"
-                step([$class: 'KubernetesEngineBuilder', \
-                  projectId: env.PROJECT_ID, \
-                  clusterName: env.CLUSTER_NAME, \
-                  location: env.LOCATION, \
-                  manifestPattern: 'deployment.yaml', \
-                  credentialsId: env.CREDENTIALS_ID, \
-                  verifyDeployments: true])
-                }
+                step([$class: 'KubernetesEngineBuilder',
+                    projectId: env.PROJECT_ID,
+                    clusterName: env.CLUSTER_NAME,
+                    location: env.LOCATION,
+                    manifestPattern: 'deployment.yaml',
+                    credentialsId: env.CREDENTIALS_ID,
+                    verifyDeployments: true])
             }
         }
+    }
 }
