@@ -1,20 +1,15 @@
-# Gunakan base image Python
 FROM python:latest
 
 # Set working directory di dalam container
 WORKDIR /app
 
-# Copy dependencies file ke dalam container
-COPY requirements.txt .
-
-# Install dependencies dari requirements.txt
+# Install dependensi proyek
+COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy seluruh isi dari direktori aplikasi ke dalam container
+# Install gunicorn
+RUN pip install gunicorn
+
 COPY . /app
 
-# Expose port yang digunakan oleh aplikasi
-# EXPOSE 5000
-
-# Menjalankan aplikasi Flask
-CMD [ "python", "-m", "flask", "run:app", "--host=0.0.0.0:8080"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "run:app"]
