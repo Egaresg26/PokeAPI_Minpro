@@ -10,13 +10,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'cf87cc0d-dd7a-4cdb-8945-a0a678c812e0', url: 'https://github.com/Egaresg26/PokeAPI_Minpro.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'cf87cc0d-dd7a-4cdb-8945-a0a678c812', url: 'https://github.com/Egaresg26/PokeAPI_Minpro.git']])
             }
         }
         stage('Build image') {
             steps {
                 script {
-                    app = docker.build("egarg26/pokeapibri:${env.BUILD_ID}")
+                    app = docker.build("sahat850/pokeapi:${env.BUILD_ID}")
                     }
             }
         }
@@ -25,9 +25,9 @@ pipeline {
             steps {
                 script {
                     withCredentials( \
-                                 [string(credentialsId: 'docker',\
-                                 variable: 'docker')]) {
-                        sh "docker login -u egarg26 -p ${docker}"
+                                 [string(credentialsId: 'dockerhub',\
+                                 variable: 'dockerhub')]) {
+                        sh "docker login -u sahat850 -p ${dockerhub}"
                     }
                     app.push("${env.BUILD_ID}")
                  }
