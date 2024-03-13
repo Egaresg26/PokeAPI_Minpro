@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deploy
 metadata:
   labels:
     app: pokeapibri
@@ -36,7 +36,7 @@ metadata:
   name: pokeapibri
 spec:
   ports:
-  - name: "pokeapi"
+  - name: "pokeapibri"
     port: 80
     targetPort: 8080
   selector:
