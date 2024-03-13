@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     withCredentials( \
-                                 [string(credentialsId: 'docker',\
+                                 [string(credentialsId: 'dockerhub',\
                                  variable: 'docker')]) {
                         sh "docker login -u egarg26 -p ${docker}"
                     }
