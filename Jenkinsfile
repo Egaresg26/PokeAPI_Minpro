@@ -16,7 +16,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    app = docker.build("sahat850/pokeapi:${env.BUILD_ID}")
+                    app = docker.build("egarg26/pokeapibri:${env.BUILD_ID}")
                     }
             }
         }
@@ -25,9 +25,9 @@ pipeline {
             steps {
                 script {
                     withCredentials( \
-                                 [string(credentialsId: 'dockerhub',\
-                                 variable: 'dockerhub')]) {
-                        sh "docker login -u sahat850 -p ${dockerhub}"
+                                 [string(credentialsId: 'docker',\
+                                 variable: 'docker')]) {
+                        sh "docker login -u egarg26 -p ${docker}"
                     }
                     app.push("${env.BUILD_ID}")
                  }
@@ -40,7 +40,7 @@ pipeline {
                 echo "Deployment started ..."
                 sh 'ls -ltr'
                 sh 'pwd'
-                sh "sed -i 's/pokeapi:latest/pokeapi:${env.BUILD_ID}/g' deployment.yaml"
+                sh "sed -i 's/pokeapibri:latest/pokeapibri:${env.BUILD_ID}/g' deployment.yaml"
                 step([$class: 'KubernetesEngineBuilder', \
                   projectId: env.PROJECT_ID, \
                   clusterName: env.CLUSTER_NAME, \
