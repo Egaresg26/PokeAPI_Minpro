@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy seluruh isi dari direktori aplikasi ke dalam container
-COPY . .
+COPY . /app
 
 # Expose port yang digunakan oleh aplikasi
-EXPOSE 5000
+# EXPOSE 5000
 
 # Menjalankan aplikasi Flask
-CMD [ "python", "-m", "flask", "run", "--host=0.0.0.0"]
+CMD [ "python", "-m", "flask", "run:app", "--host=0.0.0.0:8080"]
