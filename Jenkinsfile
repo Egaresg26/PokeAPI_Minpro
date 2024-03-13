@@ -27,7 +27,7 @@ pipeline {
                     withCredentials( \
                                  [string(credentialsId: 'docker',\
                                  variable: 'docker')]) {
-                        sh "docker login -u egarg26 --password-stdin ${docker}"
+                        sh "docker login -u egarg26 -p ${docker}"
                     }
                     app.push("${env.BUILD_ID}")
                  }
