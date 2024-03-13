@@ -2,6 +2,6 @@
 
 # Konfigurasi aplikasi Flask
 DEBUG = True
-SECRET_KEY = '1'
-SQLALCHEMY_DATABASE_URI = 'mysql://root:1@172.17.0.2/pokemon_db'
+SECRET_KEY = 'yosua123'
+SQLALCHEMY_DATABASE_URI = 'mysql://yosua:yosua123@35.238.161.118/pokemon_db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
