@@ -25,8 +25,8 @@ pipeline {
             steps {
                 script {
                     withCredentials( \
-                                 [string(credentialsId: 'docker',\
-                                 variable: 'docker')]) {
+                                 [string(credentialsId: 'dockerhub',\
+                                 variable: 'dockerhub')]) {
                         sh "docker login -u egarg26 -p ${docker}"
                     }
                     app.push("${env.BUILD_ID}")
